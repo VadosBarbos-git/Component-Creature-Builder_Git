@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 public class DragCell : MonoBehaviour
 {
-    [SerializeField] private RectTransform _RectTransform;
+    [SerializeField] private RectTransform _rectTransform;
     [SerializeField] private Image _image;
     [SerializeField] private TextMeshProUGUI _text;
 
@@ -16,14 +16,14 @@ public class DragCell : MonoBehaviour
 
         _text.raycastTarget = false;
         _text.text = text;
-        _RectTransform.anchoredPosition = anchoredPosition;
+        _rectTransform.anchoredPosition = anchoredPosition;
         _image.enabled = true;
         _text.enabled = true;
 
     }
     public void MoveDragCell(Vector3 anchoredPosition)
     {
-        _RectTransform.anchoredPosition = anchoredPosition;
+        _rectTransform.anchoredPosition = anchoredPosition;
     }
     public void DisableDragCell()
     {
@@ -33,7 +33,7 @@ public class DragCell : MonoBehaviour
 
     public Transform GetParentRect()
     {
-        return _RectTransform.parent;
+        return _rectTransform.parent;
 
     }
 }

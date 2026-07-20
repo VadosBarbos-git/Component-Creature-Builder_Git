@@ -5,12 +5,15 @@ using UnityEngine;
 
 public class Entity : MonoBehaviour
 {
-    public Rigidbody m_rigidbody;
+    [SerializeField] private Rigidbody rigidbody3D;
+    [SerializeField] private ComponentFactory componentFactory;
 
 
     private Dictionary<Type, IComponentEntity> _Components = new();
     private Dictionary<Type, GameObject> _ObjectComponents = new();
 
+
+    public Rigidbody GetRB() => rigidbody3D;
     public void UpdateAppliedComponents(Dictionary<IComponentEntity, GameObject> appliedComponents)
     {
         List<Type> applied = appliedComponents.Keys.Select(a => a.GetType()).ToList();
@@ -19,7 +22,7 @@ public class Entity : MonoBehaviour
 
         foreach (var value in valuesForRemuve)
         {
-            RemuveComponent(value);
+            RemoveComponent(value);
         }
 
         foreach (var item in appliedComponents)
@@ -33,45 +36,25 @@ public class Entity : MonoBehaviour
     {
         if (_Components.ContainsKey(value.GetComponent<IComponentEntity>().GetType())) return;
 
-        GameObject obj = Instantiate(value, transform);
+        GameObject obj = componentFactory.MakeComponent(value, transform);
         IComponentEntity component = obj.GetComponent<IComponentEntity>();
 
-        var comp = component.GetType();
-        _Components.Add(comp, component);
-        _ObjectComponents.Add(comp, obj);
-
-        foreach (var item in _Components.Values)
-        {
-            item.OnAddNewComponent(component);
-        }
+        var componentType = component.GetType();
 
         component.Initialize(this);
+        _Components.Add(componentType, component);
+        _ObjectComponents.Add(componentType, obj);
+
     }
-    private void RemuveComponent(Type key)
+    private void RemoveComponent(Type key)
     {
         if (!_Components.ContainsKey(key)) return;
         _Components[key].Disable();
         IComponentEntity component = _Components[key];
         _Components.Remove(key);
 
-        Destroy(_ObjectComponents[key].gameObject);
-
-
+        componentFactory.DestroyComponet(_ObjectComponents[key].gameObject);
         _ObjectComponents.Remove(key);
-
-        foreach (var comp in _Components.Values)
-        {
-            comp.OnRemoveComponent(component);
-        }
-
-
-        /*
-        _ObjectComponents.Remove(key);
-
-        foreach (var comp in _Components.Values)
-        {
-            comp.OnRemoveComponent(component);
-        }*/
     }
 
     void FixedUpdate()

@@ -1646,7 +1646,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 29c943acefc7bc34da1ef981614a534e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Entity
-  m_rigidbody: {fileID: 0}
+  rigidbody3D: {fileID: 0}
 --- !u!1 &1077338664
 GameObject:
   m_ObjectHideFlags: 0
@@ -2024,7 +2024,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 29c943acefc7bc34da1ef981614a534e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Entity
-  m_rigidbody: {fileID: 1535271460}
+  rigidbody3D: {fileID: 1535271460}
 --- !u!136 &1535271462
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -2612,7 +2612,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6ac388a4ca569fa4eacd24a7ab427841, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DragCell
-  m_RectTransform: {fileID: 5736762669039511235}
+  _rectTransform: {fileID: 5736762669039511235}
   _image: {fileID: 819172027565860559}
   _text: {fileID: 3355601480613086577}
 --- !u!224 &8905235862334948813

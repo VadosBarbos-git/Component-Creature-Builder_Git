@@ -12,21 +12,10 @@ public class Move_Component : MonoBehaviour, IComponentEntity
 
     public void Initialize(Entity entity)
     {
-        rb = entity.m_rigidbody;
+        rb = entity.GetRB();
         action = new();
         action.Enable();
-    }
-
-    public void OnAddNewComponent(IComponentEntity component)
-    {
-
-    }
-
-    public void OnRemoveComponent(IComponentEntity component)
-    {
-
-    }
-
+    } 
     public void Tick()
     {
         Move();

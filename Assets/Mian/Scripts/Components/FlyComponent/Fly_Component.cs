@@ -14,19 +14,10 @@ public class Fly_Component : MonoBehaviour, IComponentEntity
 
     public void Initialize(Entity entity)
     {
-        _rb = entity.m_rigidbody;
+        _rb = entity.GetRB();
         _inputActions = new();
         _inputActions.Enable();
-    }
-    public void OnAddNewComponent(IComponentEntity component)
-    {
-
-    }
-
-    public void OnRemoveComponent(IComponentEntity component)
-    {
-
-    }
+    } 
 
     public void Tick()
     {

@@ -31,15 +31,7 @@ namespace Assets.Mian.Scripts.Components.HealthComponent
         public void Tick()
         {
 
-        }
-        public void OnAddNewComponent(IComponentEntity component)
-        {
-
-        }
-        public void OnRemoveComponent(IComponentEntity component)
-        {
-
-        }
+        } 
         public void Disable()
         {
             //остановить всю отрисовку перед удалением 

@@ -7,23 +7,11 @@ public class Shield_Component : MonoBehaviour, IComponentEntity
     public void Disable()
     {
         
-    }
-
+    } 
     public void Initialize(Entity entity)
     {
         
-    }
-
-    public void OnAddNewComponent(IComponentEntity component)
-    {
-        
-    }
-
-    public void OnRemoveComponent(IComponentEntity component)
-    {
-        
-    }
-
+    } 
     public void Tick()
     {
         
