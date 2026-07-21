@@ -9,44 +9,39 @@ public class Entity : MonoBehaviour
     [SerializeField] private ComponentFactory componentFactory;
 
 
-    private Dictionary<Type, IComponentEntity> _Components = new();
-    private Dictionary<Type, GameObject> _ObjectComponents = new();
+    private Dictionary<ComponentDefinition, IComponentEntity> _Components = new();
+    private Dictionary<ComponentDefinition, GameObject> _ObjectComponents = new();
 
 
     public Rigidbody GetRB() => rigidbody3D;
-    public void UpdateAppliedComponents(Dictionary<IComponentEntity, GameObject> appliedComponents)
+    public void UpdateAppliedComponents(List<ComponentDefinition> appliedComponents)
     {
-        List<Type> applied = appliedComponents.Keys.Select(a => a.GetType()).ToList();
-        List<Type> valuesForRemuve = _Components.Keys.Where(a => !applied.Contains(a)).ToList();
-
-
-        foreach (var value in valuesForRemuve)
+        List<ComponentDefinition> valuesForRemove = _Components.Keys.Where(a => !appliedComponents.Contains(a)).ToList(); 
+        foreach (var value in valuesForRemove)
         {
             RemoveComponent(value);
-        }
-
+        } 
         foreach (var item in appliedComponents)
         {
-            if (_Components.ContainsKey(item.Key.GetType())) continue;
-            AddComponent(item.Value);
+            if (_Components.ContainsKey(item)) continue;
+            AddComponent(item);
         }
     }
 
-    private void AddComponent(GameObject value)
+    private void AddComponent(ComponentDefinition value)
     {
-        if (_Components.ContainsKey(value.GetComponent<IComponentEntity>().GetType())) return;
+        if (_Components.ContainsKey(value)) return;
 
-        GameObject obj = componentFactory.MakeComponent(value, transform);
+        GameObject obj = componentFactory.MakeComponent(value.prefab, transform);
         IComponentEntity component = obj.GetComponent<IComponentEntity>();
 
-        var componentType = component.GetType();
 
         component.Initialize(this);
-        _Components.Add(componentType, component);
-        _ObjectComponents.Add(componentType, obj);
+        _Components.Add(value, component);
+        _ObjectComponents.Add(value, obj);
 
     }
-    private void RemoveComponent(Type key)
+    private void RemoveComponent(ComponentDefinition key)
     {
         if (!_Components.ContainsKey(key)) return;
         _Components[key].Disable();
@@ -58,8 +53,7 @@ public class Entity : MonoBehaviour
     }
 
     void FixedUpdate()
-    {
-
+    { 
         foreach (var ite in _Components.Values)
         {
             ite.Tick();

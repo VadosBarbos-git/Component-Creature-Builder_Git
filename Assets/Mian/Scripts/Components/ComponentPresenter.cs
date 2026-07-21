@@ -6,7 +6,7 @@ public class ComponentPresenter : MonoBehaviour
     [SerializeField] private ComponentManger _managerController;
     [SerializeField] private ComponentUIController _uiController;
 
-    public void DropCellOn(PanelSide side, IComponentEntity component)
+    public void DropCellOn(PanelSide side, ComponentDefinition component)
     {
         //поместить обьект 
         _managerController.PutComponentOnSide(side, component);

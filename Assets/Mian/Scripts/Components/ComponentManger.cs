@@ -1,44 +1,40 @@
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using Unity.VisualScripting;
+using System.Collections.Generic; 
 using UnityEngine;
 
 public class ComponentManger : MonoBehaviour
 {
     [SerializeField] private Entity _Entity;
-    [SerializeField] private List<GameObject> AllComponents;
-    public event Action<Dictionary<IComponentEntity, GameObject>> ChangeAppliedComponents;
+    [SerializeField] private List<ComponentDefinition> AllComponents;
+    public event Action<List<ComponentDefinition>> ChangeAppliedComponents;
 
-    private Dictionary<IComponentEntity, GameObject> _allComponents;
-    private Dictionary<IComponentEntity, GameObject> _appliedComponents;
-    private Dictionary<IComponentEntity, GameObject> _notAppliedComponents;
+    private List<ComponentDefinition> _allComponents;
+    private List<ComponentDefinition> _appliedComponents;
+    private List<ComponentDefinition> _notAppliedComponents;
 
 
-    public void PutComponentOnSide(PanelSide side, IComponentEntity component)
+    public void PutComponentOnSide(PanelSide side, ComponentDefinition component)
     {
         if (side == PanelSide.NotAppliedComponents)
         {
-            if (!_appliedComponents.ContainsKey(component)) return;
+            if (!_appliedComponents.Contains(component)) return;
 
-            GameObject obj = _allComponents[component];
-            _notAppliedComponents.Add(component, obj);
+            _notAppliedComponents.Add(component);
             _appliedComponents.Remove(component);
         }
         else
         {
-            if (!_notAppliedComponents.ContainsKey(component)) return;
+            if (!_notAppliedComponents.Contains(component)) return;
 
-            GameObject obj = _notAppliedComponents[component];
-            _appliedComponents.Add(component, obj);
+            _appliedComponents.Add(component);
             _notAppliedComponents.Remove(component);
 
         }
         ChangeAppliedComponents?.Invoke(_appliedComponents);
     }
-    public List<IComponentEntity> GetNotAppliedComponents() => _notAppliedComponents.Keys.ToList();
-    public List<IComponentEntity> GetAppliedComponents() => _appliedComponents.Keys.ToList();
+    public List<ComponentDefinition> GetNotAppliedComponents() => _notAppliedComponents;
+    public List<ComponentDefinition> GetAppliedComponents() => _appliedComponents;
     public void Init()
     {
         _allComponents = new();
@@ -46,9 +42,9 @@ public class ComponentManger : MonoBehaviour
         _notAppliedComponents = new();
         foreach (var item in AllComponents)
         {
-            if (item.TryGetComponent<IComponentEntity>(out var component))
+            if (item != null && !_allComponents.Contains(item))
             {
-                _allComponents.Add(component, item);
+                _allComponents.Add(item);
             }
         }
 

@@ -10,11 +10,11 @@ public class ComponentUIController : MonoBehaviour
     [SerializeField] private PanelDrop _appliedPanel;
     [SerializeField] private PanelDrop _notAppliedPanel;
     [SerializeField] private DragCell _dragCell;
-    public void DropCellOn(PanelSide side, IComponentEntity component)
+    public void DropCellOn(PanelSide side, ComponentDefinition component)
     {
         _componentPresenter.DropCellOn(side, component);
     }
-    public void UpdateApplyedPanel(List<IComponentEntity> components)
+    public void UpdateApplyedPanel(List<ComponentDefinition> components)
     {
         for (int i = _appliedPanel.transform.childCount - 1; i >= 0; i--)
         {
@@ -28,7 +28,7 @@ public class ComponentUIController : MonoBehaviour
         StartCoroutine(FlachGridLayoutGroup(_appliedPanel.GetComponent<GridLayoutGroup>()));
         _dragCell.DisableDragCell();
     }
-    public void UpdateNotApplyedPanel(List<IComponentEntity> components)
+    public void UpdateNotApplyedPanel(List<ComponentDefinition> components)
     {
         for (int i = _notAppliedPanel.transform.childCount - 1; i >= 0; i--)
         {

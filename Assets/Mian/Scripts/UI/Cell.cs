@@ -1,14 +1,13 @@
 
-using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class Cell : MonoBehaviour, IDragHandler, IBeginDragHandler 
+public class Cell : MonoBehaviour, IDragHandler, IBeginDragHandler
 {
     public static Cell CurentCell;
-    private IComponentEntity _curentComponent;
+    private ComponentDefinition _curentComponent;
 
     private Image _image;
     private TextMeshProUGUI _textNameCell;
@@ -52,17 +51,17 @@ public class Cell : MonoBehaviour, IDragHandler, IBeginDragHandler
 
         DragCell.MoveDragCell((Vector3)localPos);
     }
-     
 
 
-    public void SetCell(IComponentEntity component, DragCell dragCell)
+
+    public void SetCell(ComponentDefinition component, DragCell dragCell)
     {
         _curentComponent = component;
-        string name = component.GetType().Name;
+        string name = component.nameComponent;
         _textNameCell = transform.GetChild(0).GetComponent<TextMeshProUGUI>();
         _textNameCell.text = name;
         DragCell = dragCell;
     }
-    public IComponentEntity GetEntityComponent() => _curentComponent;
-   
+    public ComponentDefinition GetEntityComponent() => _curentComponent;
+
 }
